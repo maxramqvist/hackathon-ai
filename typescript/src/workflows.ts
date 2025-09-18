@@ -1,13 +1,30 @@
 import { proxyActivities } from '@temporalio/workflow';
 
 import type { createActivities } from './activities';
+import { SortResult } from './shared';
 
-const { sayName } = proxyActivities<ReturnType<typeof createActivities>>({
+const activities = proxyActivities<ReturnType<typeof createActivities>>({
   startToCloseTimeout: '1 minute',
+  // retry: { maximumAttempts: 1 },
 });
 
 // Add Workflow Definitions here.
 export async function helloWorldWorkflow(name: string): Promise<string> {
   // Your workflow code here
-  return sayName(name);
+  return activities.sayName(name);
 }
+
+export const sortNotesWorkflow = async (notes: string[]) => {
+  // Your workflow code here
+
+  const sorted: SortResult = await activities.callLLMFortSorting(notes);
+
+  const dailyPlan = await activities.callLLMForDailyPlan(sorted.plans);
+
+  return {
+    todos: sorted.todos,
+    dailyPlan,
+    knowledge: sorted.knowledge,
+    others: sorted.others,
+  };
+};
