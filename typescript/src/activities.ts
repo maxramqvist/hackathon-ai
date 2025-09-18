@@ -4,12 +4,6 @@ import { SortResult, callLLM } from './shared';
 
 // If you wish to connect any dependencies (eg, database), add in here
 export const createActivities = (/* db: typeorm.DataSource */) => ({
-  async sayName(name: string): Promise<string> {
-    if (!name) {
-      name = 'anonymous human';
-    }
-    return `Hello, ${name}!`;
-  },
   async callLLMForDailyPlan(plans: string[]): Promise<string> {
     return callLLM(
       'You are an expert productivity assistant. Create a concise daily schedule based on the following plans. The schedule should be clear and actionable. Always answer in english',
@@ -29,10 +23,10 @@ export const createActivities = (/* db: typeorm.DataSource */) => ({
       The response format MUST be a valid JSON object with the following structure:
 
       {
-        "todos": [list of todos as strings],
-        "plans": [list of plans as strings],
-        "knowledge": [list of knowledge as strings],
-        "others": [list of others as strings]
+        "todos": [strings of todos],
+        "plans": [strings of plans],
+        "knowledge": [strings of knowledge],
+        "others": [strings of others]
       }
 
 

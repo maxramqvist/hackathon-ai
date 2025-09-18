@@ -8,12 +8,6 @@ const activities = proxyActivities<ReturnType<typeof createActivities>>({
   // retry: { maximumAttempts: 1 },
 });
 
-// Add Workflow Definitions here.
-export async function helloWorldWorkflow(name: string): Promise<string> {
-  // Your workflow code here
-  return activities.sayName(name);
-}
-
 export const sortNotesWorkflow = async (notes: string[]) => {
   // Your workflow code here
 
